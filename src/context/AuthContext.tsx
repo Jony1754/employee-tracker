@@ -1,29 +1,24 @@
 // src/context/AuthContext.tsx
 
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
 }
-interface AuthProviderProps {
-  children: ReactNode;
-}
+
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
 );
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = () => {
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-  };
+  const login = () => setIsAuthenticated(true);
+  const logout = () => setIsAuthenticated(false);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

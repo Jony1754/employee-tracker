@@ -1,18 +1,21 @@
-// src/routes/index.tsx
-
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import EmployeeManagement from '../containers/Dashboard/EmployeeManagement';
-import Statistics from '../containers/Dashboard/Statistics';
+import GeneralView from '../containers/Dashboard';
+import DashboardLayout from '../components/containers/DashboardLayout';
 import Login from '../containers/Login';
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path='/login' Component={Login} />
-      <Route path='/dashboard' Component={EmployeeManagement} />
-      <Route path='/statistics' Component={Statistics} />
-      <Route path='/' Component={EmployeeManagement} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/dashboard/*' element={<DashboardLayout />}>
+        <Route
+          index // Esta ruta representa la página principal de la sección del dashboard
+          element={<GeneralView title='Home' />}
+        />
+        <Route path='empleados' element={<GeneralView title='Empleados' />} />
+        <Route path='cargos' element={<GeneralView title='Cargos' />} />
+      </Route>
     </Routes>
   );
 };

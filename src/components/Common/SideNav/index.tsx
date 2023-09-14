@@ -1,18 +1,35 @@
-// src/components/Common/SideNav/index.tsx
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import React from 'react';
 import styles from './SideNav.module.css';
-
+import menuImage from '../../../assets/images/menu.svg';
 const SideNav: React.FC = () => {
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  const toggleListOpen = () => {
+    setIsListOpen(!isListOpen);
+  };
+
   return (
-    <nav className={styles['sidenav']}>
-      <ul>
-        <li className={styles['nav-item']}>Inicio</li>
-        <li className={styles['nav-item']}>Gestión de Empleados</li>
-        <li className={styles['nav-item']}>Estadísticas</li>
-        <li className={styles['nav-item']}>Configuraciones</li>
-      </ul>
-    </nav>
+    <ul className={styles['side-nav']}>
+      <div className={styles.toggle}>
+        <img className={styles.menu} src={menuImage} alt='' />
+      </div>
+      <li className={styles['home']}>
+        <Link to='/dashboard'>Home</Link>
+      </li>
+      <li onClick={toggleListOpen}>Listas</li>
+      {isListOpen && (
+        <ul className={styles['side-nav__submenu']}>
+          <li>
+            <Link to='/dashboard/empleados'>Empleados</Link>
+          </li>
+          <li>
+            <Link to='/dashboard/cargos'>Cargos</Link>
+          </li>
+        </ul>
+      )}
+    </ul>
   );
 };
 
