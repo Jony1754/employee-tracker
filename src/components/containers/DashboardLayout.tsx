@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import SideNav from '../Common/SideNav';
 import { Outlet } from 'react-router-dom';
 import styles from './DashboardLayout.module.css';
+import AppBar from '../Common/AppBar';
 interface DashboardLayoutProps {
   children?: ReactNode;
 }
@@ -22,11 +23,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   }, [authContext, navigate]);
 
   return (
-    <div className={styles['dashboard-layout']}>
-      <Outlet />
-      <SideNav />
-      {children}
-    </div>
+    <>
+      <AppBar />
+      <div className={styles['dashboard-layout']}>
+        <Outlet />
+        <SideNav />
+        {children}
+      </div>
+    </>
   );
 };
 

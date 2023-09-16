@@ -19,7 +19,7 @@
 }
 .table th,
 .table td {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f00f0;
   padding: 0.5rem;
   text-align: left;
   font-size: 0.8rem;
@@ -44,6 +44,8 @@
   display: table;
   width: 100%;
   table-layout: fixed;
+  border: 2px solid #f0f0f0;
+  margin-bottom: 20px;
 }
 .table thead,
 .table tr {

@@ -33,7 +33,7 @@ const SideNav: React.FC = () => {
             <TiThSmallOutline className='nav__toggle' id='nav-toggle' />
           </div>
           <div className='nav__list'>
-            <Link to='/dashboard' className='nav__link'>
+            <Link to='/dashboard/home' className='nav__link'>
               <TiHomeOutline className='nav__icon' />
               <span className='nav__name'>Home</span>
             </Link>

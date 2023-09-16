@@ -1,15 +1,16 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import GeneralView from '../containers/Dashboard';
 import DashboardLayout from '../components/containers/DashboardLayout';
 import Login from '../containers/Login';
+import HomePage from '../containers/HomePage';
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/' element={<Login />} />
+      <Route index path='/login' element={<Login />} />
+      <Route path='/' element={<Navigate to='/login' />} />
       <Route path='/dashboard/*' element={<DashboardLayout />}>
-        <Route index element={<GeneralView title='Home' />} />
+        <Route path='home' element={<HomePage />} />
         <Route path='empleados' element={<GeneralView title='Empleados' />} />
         <Route path='cargos' element={<GeneralView title='Cargos' />} />
       </Route>

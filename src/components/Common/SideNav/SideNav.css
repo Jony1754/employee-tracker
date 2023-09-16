@@ -11,8 +11,8 @@
 
 .l-navbar {
   position: fixed;
-  top: 0;
-  left: 0;
+  /* top: 0; */
+  /* left: 0; */
   width: var(--nav-width);
   height: 100vh;
   background-color: var(--bg-color);
