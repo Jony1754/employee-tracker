@@ -1,0 +1,182 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.table th,
+.table td {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.table th {
+  background-color: #fafafa;
+  color: #333;
+  position: sticky;
+  margin-bottom: 20px;
+  top: 0;
+  z-index: 1;
+}
+.table tbody {
+  display: block;
+  overflow-y: auto;
+  height: 60vh;
+  width: 100%;
+}
+
+.table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.table thead,
+.table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.searchInput {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.8rem;
+}
+
+.searchInput:focus {
+  border-color: #007bff;
+}
+
+.buttonOptions {
+  width: 32px;
+  height: 32px;
+  color: #007bff;
+}
+
+.buttonOptions:hover {
+  transition: all 0.5s;
+  color: var(--sub-color);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px !important;
+  border-bottom: none;
+}
+.tableFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.rowsPerPageSelector {
+  display: flex;
+  align-items: center;
+}
+
+.rowsPerPageSelector span {
+  margin-right: 8px;
+}
+
+.rowsPerPageSelector select {
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.pageButton {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pageButton:hover {
+  background-color: #e0e0e0;
+}
+
+.pageButton:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+
+.tableFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+}
+
+.itemPerPageSelector {
+  display: flex;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination span {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.pagination span:hover {
+  background-color: #e0e0e0;
+}
+
+.tableContainer {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+@media (min-width: 86rem) {
+  .table th,
+  .table td {
+    padding: 1.5rem;
+    font-size: 1rem;
+    min-width: 150px;
+  }
+
+  .searchInput {
+    font-size: 1rem;
+  }
+}

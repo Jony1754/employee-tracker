@@ -1,0 +1,59 @@
+.body-pd {
+  transition: all 0.5s;
+  padding: 2rem 0 0 16rem;
+}
+
+.bodytable {
+  transition: all 0.5s;
+  padding: 0 102px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+.title svg {
+  font-size: 1.2rem;
+  color: var(--sub-color);
+}
+
+.options {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.optionsGroup {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.optionsGroup:nth-child(2) {
+  justify-content: flex-end;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid var(--sub-color);
+  color: blue;
+}
+
+.button:hover {
+  background-color: var(--sub-color);
+  color: white;
+}
