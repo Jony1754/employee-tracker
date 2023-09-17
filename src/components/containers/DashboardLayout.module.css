@@ -1,0 +1,8 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+div table {
+  padding: 30px;
+}

@@ -1,0 +1,130 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.imageContainer {
+  position: relative;
+  width: 70%;
+  height: 100%;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.182),
+      rgba(0, 142, 237, 0.7)
+    ),
+    url('../../assets/images/loginimg.jpg');
+  background-size: cover;
+}
+
+.imageContainer h1 {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
+  text-align: left;
+  font-weight: 300;
+  width: 100%;
+  padding: 20px;
+}
+strong {
+  font-weight: 600;
+}
+.imageContainer h1 span {
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
+
+.image {
+  width: 100%;
+  /* max-width: 400px; */
+  object-fit: cover;
+  height: 100%;
+  opacity: 0; /* Esto es para hacer la imagen original invisible, ya que la imagen ahora se establece a través de .imageContainer */
+}
+
+.loginForm {
+  width: 45.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+.loginForm input {
+  width: 393px;
+  height: 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 50px;
+  padding: 0 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  outline: none;
+}
+.loginForm input:focus {
+  border: 1px solid var(--primary-color);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  column-gap: 10px;
+  margin-bottom: 50px;
+}
+.formGroup label {
+  font-size: 0.8rem;
+  color: rgba(152, 152, 152, 1);
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.forgotUserContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 393px;
+  margin-top: 10px;
+}
+.forgotUserContainer a {
+  font-size: 0.8rem;
+  color: rgba(152, 152, 152, 1);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.forgotUserContainer a:hover {
+  color: rgba(152, 152, 152, 0.8);
+}
+.rememberUser {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  column-gap: 10px;
+}
+.rememberUser input {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.login button {
+  width: 393px;
+  height: 36px;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: 300;
+  outline: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: rgba(55, 55, 236, 0.8);
+}
