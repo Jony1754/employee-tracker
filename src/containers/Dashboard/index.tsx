@@ -16,7 +16,7 @@ type IEmpleadoCargo = IEmpleado | ICargo;
 interface GeneralViewProps {
   title: string;
 }
-const localHost = 'http://localhost:3000/api';
+// const localHost = 'http://localhost:3000/api';
 const AWS =
   'http://psicoalianzaenv.eba-vev3v6r4.us-east-1.elasticbeanstalk.com/api';
 
@@ -71,16 +71,13 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
     try {
       await Promise.all(
         selectedIds.map(async (id: number) => {
-          await fetch(`${API}${endpoint}/${id}`, {
-            method: 'DELETE',
-          });
+          await axios.delete(`${API}${endpoint}/${id}`);
         })
       );
       setIsDeleteOpen(false);
       setDeletingMany(false);
       setSelectedIds([]);
       alert('Eliminación exitosa!');
-
       refetch();
     } catch (error) {
       console.error('Error eliminando:', error);
@@ -119,111 +116,91 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
   };
 
   const put = async (payload: IEmpleadoCargo) => {
-    if (title === 'Empleados') {
-      const {
-        id,
-        nombre,
-        identificacion,
-        direccion,
-        telefono,
-        ciudad,
-        departamento,
-      } = payload as IEmpleado;
-      const empleado = {
-        id,
-        nombre,
-        identificacion,
-        direccion,
-        telefono,
-        ciudad,
-        departamento,
-      };
-      console.log('Empleado a EDITAR: ', empleado);
-      const response = await fetch(`${API}${endpoint}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(empleado),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      return await response.json();
-    } else {
-      const { id, nombre, identificacion, area, cargo, rol, jefe } =
-        payload as ICargo;
-      const newCargo = {
-        id,
-        nombre,
-        identificacion,
-        area,
-        cargo,
-        rol,
-        jefe,
-      };
-      console.log('Cargo a EDITAR: ', newCargo);
-      const response = await fetch(`${API}${endpoint}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(newCargo),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      return await response.json();
+    try {
+      let response;
+      if (title === 'Empleados') {
+        const {
+          id,
+          nombre,
+          identificacion,
+          direccion,
+          telefono,
+          ciudad,
+          departamento,
+        } = payload as IEmpleado;
+        const empleado = {
+          id,
+          nombre,
+          identificacion,
+          direccion,
+          telefono,
+          ciudad,
+          departamento,
+        };
+        response = await axios.put(`${API}${endpoint}/${id}`, empleado);
+      } else {
+        const { id, nombre, identificacion, area, cargo, rol, jefe } =
+          payload as ICargo;
+        const newCargo = {
+          id,
+          nombre,
+          identificacion,
+          area,
+          cargo,
+          rol,
+          jefe,
+        };
+        response = await axios.put(`${API}${endpoint}/${id}`, newCargo);
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Error editando:', error);
+      alert('Hubo un error editando. Por favor intenta de nuevo.');
     }
   };
-
   const post = async (url: string, payload: IEmpleadoCargo) => {
-    if (title === 'Empleados') {
-      const {
-        id,
-        nombre,
-        identificacion,
-        direccion,
-        telefono,
-        ciudad,
-        departamento,
-      } = payload as IEmpleado;
-      const empleado = {
-        id,
-        nombre,
-        identificacion,
-        direccion,
-        telefono,
-        ciudad,
-        departamento,
-      };
-      empleado.id = data.length + 1;
-      console.log('Empleado a enviar: ', empleado);
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(empleado),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      return await response.json();
-    } else {
-      const { id, nombre, identificacion, area, cargo, rol, jefe } =
-        payload as ICargo;
-      const newCargo = {
-        id,
-        nombre,
-        identificacion,
-        area,
-        cargo,
-        rol,
-        jefe,
-      };
-
-      newCargo.id = data.length + 1;
-      console.log('Cargo a enviar: ', cargo);
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(newCargo),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      return await response.json();
+    try {
+      let response;
+      if (title === 'Empleados') {
+        const {
+          id,
+          nombre,
+          identificacion,
+          direccion,
+          telefono,
+          ciudad,
+          departamento,
+        } = payload as IEmpleado;
+        const empleado = {
+          id,
+          nombre,
+          identificacion,
+          direccion,
+          telefono,
+          ciudad,
+          departamento,
+        };
+        empleado.id = data.length + 1;
+        response = await axios.post(url, empleado);
+      } else {
+        const { id, nombre, identificacion, area, cargo, rol, jefe } =
+          payload as ICargo;
+        const newCargo = {
+          id,
+          nombre,
+          identificacion,
+          area,
+          cargo,
+          rol,
+          jefe,
+        };
+        newCargo.id = data.length + 1;
+        response = await axios.post(url, newCargo);
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Error creando:', error);
+      alert('Hubo un error creando. Por favor intenta de nuevo.');
     }
   };
 
@@ -238,30 +215,22 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
   };
 
   const deleteUser = async () => {
-    if (deletingMany) {
-      try {
+    try {
+      if (deletingMany) {
         await deleteMany();
         setDeletingMany(false);
-
         return;
-      } catch (error) {
-        console.error('Error eliminando:', error);
-        alert('Hubo un error eliminando. Por favor intenta de nuevo.');
-      }
-    } else {
-      try {
-        console.log('url: ', `${API}${endpoint}/${idToDelete}`);
+      } else {
         const response = await axios.delete(`${API}${endpoint}/${idToDelete}`);
         const data = response.data;
-
-        console.log('data: ', data);
+        console.log('data on deleteUser: ', data);
         setIsDeleteOpen(false);
         alert('Eliminación exitosa!');
         refetch();
-      } catch (error) {
-        console.error('Error eliminando:', error);
-        alert('Hubo un error eliminando. Por favor intenta de nuevo.');
       }
+    } catch (error) {
+      console.error('Error eliminando:', error);
+      alert('Hubo un error eliminando. Por favor intenta de nuevo.');
     }
   };
 
