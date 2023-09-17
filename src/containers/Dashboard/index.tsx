@@ -11,17 +11,20 @@ import CreateModal from '../../components/Common/CreateModal';
 import { IEmpleado } from '../../interfaces/Empleado';
 import { ICargo } from '../../interfaces/Cargo';
 import DeleteConfirmationModal from '../../components/Common/DeleteConfirmationModal';
-
+import axios from 'axios';
 type IEmpleadoCargo = IEmpleado | ICargo;
 interface GeneralViewProps {
   title: string;
 }
+const localHost = 'http://localhost:3000/api';
+const AWS =
+  'http://psicoalianzaenv.eba-vev3v6r4.us-east-1.elasticbeanstalk.com/api';
+
+const API = AWS;
 
 const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
   const endpoint = title === 'Empleados' ? '/empleados' : '/cargos';
-  const { data, loading, refetch } = useApiData(
-    `http://localhost:3000${endpoint}`
-  );
+  const { data, loading, refetch } = useApiData(`${API}${endpoint}`);
   const [isOpened, setIsOpened] = React.useState(false);
   const { isExpanded } = useSidenavToggle();
   const [isDeleteOpen, setIsDeleteOpen] = React.useState(false);
@@ -68,7 +71,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
     try {
       await Promise.all(
         selectedIds.map(async (id: number) => {
-          await fetch(`http://localhost:3000${endpoint}/${id}`, {
+          await fetch(`${API}${endpoint}/${id}`, {
             method: 'DELETE',
           });
         })
@@ -104,10 +107,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
       }
     } else {
       try {
-        const response = await post(
-          `http://localhost:3000${endpoint}`,
-          formData
-        );
+        const response = await post(`${API}${endpoint}`, formData);
         setIsOpened(false);
         console.log('response: ', response);
         alert('Creación exitosa!');
@@ -139,7 +139,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
         departamento,
       };
       console.log('Empleado a EDITAR: ', empleado);
-      const response = await fetch(`http://localhost:3000${endpoint}/${id}`, {
+      const response = await fetch(`${API}${endpoint}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(empleado),
         headers: {
@@ -160,7 +160,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
         jefe,
       };
       console.log('Cargo a EDITAR: ', newCargo);
-      const response = await fetch(`http://localhost:3000${endpoint}/${id}`, {
+      const response = await fetch(`${API}${endpoint}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(newCargo),
         headers: {
@@ -250,13 +250,10 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
       }
     } else {
       try {
-        const response = await fetch(
-          `http://localhost:3000${endpoint}/${idToDelete}`,
-          {
-            method: 'DELETE',
-          }
-        );
-        const data = await response.json();
+        console.log('url: ', `${API}${endpoint}/${idToDelete}`);
+        const response = await axios.delete(`${API}${endpoint}/${idToDelete}`);
+        const data = response.data;
+
         console.log('data: ', data);
         setIsDeleteOpen(false);
         alert('Eliminación exitosa!');
