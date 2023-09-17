@@ -1,11 +1,9 @@
-import React, { useState, useContext } from 'react';
+import { useState } from 'react';
 import styles from './AppBar.module.css';
 import logo from '../../../assets/images/logo.png';
 import userImage from '../../../assets/images/elisa.png';
-import { AuthContext } from '../../../context/AuthContext';
 const AppBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const authContext = useContext(AuthContext);
   return (
     <div className={styles.appBar}>
       <div className={styles.logo}>

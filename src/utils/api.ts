@@ -6,7 +6,7 @@ const useApiData = (endpoint: string) => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [refetchTrigger, setRefetchTrigger] = useState<number>(0);
-  
+
   const refetch = useCallback(() => {
     setRefetchTrigger((prev) => prev + 1);
   }, []);
