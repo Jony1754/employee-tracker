@@ -111,7 +111,7 @@ strong {
   cursor: pointer;
 }
 
-button {
+.login button {
   width: 393px;
   height: 36px;
   border: none;
