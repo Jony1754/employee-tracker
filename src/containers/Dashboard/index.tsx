@@ -18,7 +18,7 @@ interface GeneralViewProps {
 }
 // const localHost = 'http://localhost:3000/api';
 const AWS =
-  'http://psicoalianzaenv.eba-vev3v6r4.us-east-1.elasticbeanstalk.com/api';
+  'https://psicoalianzaenv.eba-vev3v6r4.us-east-1.elasticbeanstalk.com/api';
 
 const API = AWS;
 
