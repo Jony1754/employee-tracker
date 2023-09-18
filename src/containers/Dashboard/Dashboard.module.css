@@ -48,9 +48,13 @@
   border-radius: 3rem;
   margin-right: 1rem;
   cursor: pointer;
+  font-weight: 500;
   transition: all 0.3s;
-  border: 1px solid var(--sub-color);
   color: blue;
+}
+
+.buttonAdd {
+  border: 1px solid var(--sub-color);
 }
 
 .button:hover {

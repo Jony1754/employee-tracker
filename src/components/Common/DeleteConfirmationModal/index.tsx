@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
-
+import trashIcon from '../../../assets/images/trash.png';
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
   userName: string;
@@ -26,12 +26,12 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       <div className={styles.modalContent}>
         <div className={styles.modalRow}>
           <div className={styles.iconContainer}>
-            {/* Aquí puede ir tu icono de eliminación, por ejemplo: */}
-            <i className='fas fa-trash-alt'></i>
+            <img src={trashIcon} alt='' />
           </div>
         </div>
         <div className={styles.modalRow}>
           <div className={styles.messageContainer}>
+            <h3>Borrar empleado</h3>
             {deletingMany
               ? '¿Está seguro de que desea borrar a los usuarios seleccionados?'
               : `¿Está seguro de que desea borrar a ${userName}?`}

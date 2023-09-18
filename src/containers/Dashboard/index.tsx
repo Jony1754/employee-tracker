@@ -10,8 +10,12 @@ import styles from './Dashboard.module.css';
 import CreateModal from '../../components/Common/CreateModal';
 import { IEmpleado } from '../../interfaces/Empleado';
 import { ICargo } from '../../interfaces/Cargo';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import DeleteConfirmationModal from '../../components/Common/DeleteConfirmationModal';
 import axios from 'axios';
+import { Collapse, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 type IEmpleadoCargo = IEmpleado | ICargo;
 interface GeneralViewProps {
   title: string;
@@ -26,6 +30,13 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
   const endpoint = title === 'Empleados' ? '/empleados' : '/cargos';
   const { data, loading, refetch } = useApiData(`${API}${endpoint}`);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [isOpen, setOpen] = React.useState(false);
+  const [successfullyDeleted, setSuccessfullyDeleted] = React.useState(false);
+  const [successfullyEdited, setSuccessfullyEdited] = React.useState(false);
+  const [successfullyCreated, setSuccessfullyCreated] = React.useState(false);
+  const [errorEditing, setErrorEditing] = React.useState(false);
+  const [errorCreating, setErrorCreating] = React.useState(false);
+  const [errorDeleting, setErrorDeleting] = React.useState(false);
   const { isExpanded } = useSidenavToggle();
   const [isDeleteOpen, setIsDeleteOpen] = React.useState(false);
   const [elementToDelete, setElementToDelete] = React.useState('');
@@ -35,7 +46,6 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
     React.useState<IEmpleadoCargo | null>(null);
 
   const handleEdit = (id: number) => {
-    alert(`Editando el elemento con ID: ${id}`);
     const element = data.find((item: IEmpleadoCargo) => item.id === id);
     setElementToEdit(element);
     setIsOpened(true);
@@ -59,7 +69,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
 
   const deleteSelected = () => {
     if (selectedIds.length === 0) {
-      alert('Por favor selecciona al menos un elemento.');
+      setOpen(true);
     } else {
       setIsDeleteOpen(true);
       setDeletingMany(true);
@@ -77,11 +87,11 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
       setIsDeleteOpen(false);
       setDeletingMany(false);
       setSelectedIds([]);
-      alert('Eliminación exitosa!');
+      setSuccessfullyDeleted(true);
       refetch();
     } catch (error) {
       console.error('Error eliminando:', error);
-      alert('Hubo un error eliminando. Por favor intenta de nuevo.');
+      setErrorDeleting(true);
     }
   };
 
@@ -95,22 +105,23 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
       try {
         await put(formData);
         setIsOpened(false);
-        alert('Edición exitosa!');
+        setSuccessfullyEdited(true);
         refetch();
         setElementToEdit(null);
       } catch (error) {
         console.error('Error editando:', error);
-        alert('Hubo un error editando. Por favor intenta de nuevo.');
+        setErrorEditing(true);
       }
     } else {
       try {
         const response = await post(`${API}${endpoint}`, formData);
         setIsOpened(false);
         console.log('response: ', response);
-        alert('Creación exitosa!');
+        refetch();
+        setSuccessfullyCreated(true);
       } catch (error) {
         console.error('Error creando:', error);
-        alert('Hubo un error creando. Por favor intenta de nuevo.');
+        setErrorCreating(true);
       }
     }
   };
@@ -155,7 +166,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
       return response.data;
     } catch (error) {
       console.error('Error editando:', error);
-      alert('Hubo un error editando. Por favor intenta de nuevo.');
+      setErrorEditing(true);
     }
   };
   const post = async (url: string, payload: IEmpleadoCargo) => {
@@ -180,7 +191,7 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
           ciudad,
           departamento,
         };
-        empleado.id = data.length + 1;
+        empleado.id = data.length + 100;
         response = await axios.post(url, empleado);
       } else {
         const { id, nombre, identificacion, area, cargo, rol, jefe } =
@@ -194,13 +205,13 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
           rol,
           jefe,
         };
-        newCargo.id = data.length + 1;
+        newCargo.id = data.length + 100;
         response = await axios.post(url, newCargo);
       }
       return response.data;
     } catch (error) {
       console.error('Error creando:', error);
-      alert('Hubo un error creando. Por favor intenta de nuevo.');
+      setErrorCreating(true);
     }
   };
 
@@ -225,12 +236,13 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
         const data = response.data;
         console.log('data on deleteUser: ', data);
         setIsDeleteOpen(false);
-        alert('Eliminación exitosa!');
+        setSuccessfullyDeleted(true);
+
         refetch();
       }
     } catch (error) {
       console.error('Error eliminando:', error);
-      alert('Hubo un error eliminando. Por favor intenta de nuevo.');
+      setErrorDeleting(true);
     }
   };
 
@@ -240,6 +252,148 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
 
   return (
     <div className={isExpanded ? 'body-pd' : 'bodytable'}>
+      <Stack sx={{ width: '100%' }} spacing={1}>
+        <Collapse in={isOpen}>
+          <Alert
+            severity='warning'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Por favor selecciona al menos un elemento
+          </Alert>
+        </Collapse>
+        <Collapse in={successfullyDeleted}>
+          <Alert
+            severity='success'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setSuccessfullyDeleted(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Eliminacion exitosa
+          </Alert>
+        </Collapse>
+        <Collapse in={successfullyEdited}>
+          <Alert
+            severity='success'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setSuccessfullyEdited(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Edicion exitosa
+          </Alert>
+        </Collapse>
+        <Collapse in={successfullyCreated}>
+          <Alert
+            severity='success'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setSuccessfullyCreated(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Creacion exitosa
+          </Alert>
+        </Collapse>
+        <Collapse in={errorEditing}>
+          <Alert
+            severity='error'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setErrorEditing(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Error editando
+          </Alert>
+        </Collapse>
+        <Collapse in={errorCreating}>
+          <Alert
+            severity='error'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setErrorCreating(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Error creando
+          </Alert>
+        </Collapse>
+        <Collapse in={errorDeleting}>
+          <Alert
+            severity='error'
+            action={
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                size='small'
+                onClick={() => {
+                  setErrorDeleting(false);
+                }}
+              >
+                <CloseIcon fontSize='inherit' />
+              </IconButton>
+            }
+            sx={{ mt: 2 }}
+          >
+            Error eliminando
+          </Alert>
+        </Collapse>
+      </Stack>
       <DeleteConfirmationModal
         isOpen={isDeleteOpen}
         onCancel={function (): void {
@@ -271,12 +425,12 @@ const GeneralView: React.FC<GeneralViewProps> = ({ title }) => {
           </div>
           <div className={styles.button}>
             <TfiDownload />
-            <p>Borrar selección</p>
+            <p>Descargar datos</p>
           </div>
         </div>
         <div className={styles.optionsGroup}>
           <div
-            className={styles.button}
+            className={styles.button + ' ' + styles.buttonAdd}
             onClick={() => {
               setIsOpened(true);
             }}

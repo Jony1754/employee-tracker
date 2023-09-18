@@ -19,7 +19,6 @@
 }
 .table th,
 .table td {
-  border-bottom: 1px solid #f00f0;
   padding: 0.5rem;
   text-align: left;
   font-size: 0.8rem;
@@ -38,6 +37,15 @@
   overflow-y: auto;
   height: 60vh;
   width: 100%;
+  /* hide scrollbars */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+.table tbody::-webkit-scrollbar {
+  display: none;
 }
 
 .table tbody tr {
@@ -52,6 +60,7 @@
   display: table;
   width: 100%;
   table-layout: fixed;
+  margin-bottom: 10px;
 }
 .table tbody tr:hover {
   background-color: #f9f9f9;

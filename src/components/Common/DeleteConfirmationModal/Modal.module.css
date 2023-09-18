@@ -15,8 +15,13 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
+  width: 616px;
+  height: 492px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .modalRow {
@@ -26,20 +31,31 @@
 }
 
 .iconContainer {
-  font-size: 2rem;
-  color: red;
+  /* font-size: 2rem; */
+  width: 45px;
+  height: 50px;
+}
+.iconContainer img {
+  width: 100%;
+  height: 100%;
 }
 
+.messageContainer h3 {
+  font-size: 1.8rem;
+  font-weight: 200;
+  margin-bottom: 10px;
+}
 .messageContainer {
   text-align: center;
   font-size: 1rem;
+  font-weight: 300;
 }
 
 .cancelButton,
 .confirmButton {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 26px;
   cursor: pointer;
   font-size: 1rem;
 }
@@ -50,7 +66,7 @@
 }
 
 .confirmButton {
-  background-color: #dc3545;
+  background-color: var(--primary-color);
   color: #fff;
 }
 

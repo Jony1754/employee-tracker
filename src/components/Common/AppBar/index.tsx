@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './AppBar.module.css';
 import logo from '../../../assets/images/logo.png';
 import userImage from '../../../assets/images/elisa.png';
+import { Link } from 'react-router-dom';
 const AppBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
@@ -24,7 +25,7 @@ const AppBar = () => {
             <a href='#'>Perfil</a>
             <a href='#'>Configuraciones</a>
             <a href='#'>Soporte</a>
-            <a href='#'>Salir</a>
+            <Link to='/login'>Salir</Link>
           </div>
         )}
       </div>
